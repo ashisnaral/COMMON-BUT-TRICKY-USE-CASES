@@ -1,0 +1,36 @@
+COMMON BUT TRICKY SQL ISSUES 
+
+
+
+-----------------------------------------------------------------------------------------
+
+For products that weren't sold even once between 2015-02-01 and 2015-02-05, show the product name (rename the column to product_name), it's price and the producer's name (rename the column to company_name). You should display all products that haven't been sold in this interval, also the ones that don't belong to any company.
+
+
+SELECT
+p.name as product_name,
+p.price,
+pr.name as company_name
+
+FROM product p
+LEFT JOIN sales_history sh
+ON p.id = sh.product_id
+
+AND  date BETWEEN '2015-02-01' AND '2015-02-05'
+  
+LEFT JOIN producer pr
+ON p.producer_id = pr.id
+WHERE sh.product_id is null
+
+
+
+------------------------------------------------------------------------------------------
+
+
+For each artist, display:
+
+The name of the artist. The special code of the artist (name the column special_code). The special code consists of the first two letters of the artist's first two name parts (name parts are separated by the space). All letters must be lowercase. As an example, the special code for Wolfgang Paalen is 'wopa'.
+
+It is not necessary to modify the function behavior for names with no space.
+
+SELECT name, LOWER(SUBSTRING(name, 1, 2) || SUBSTRING(SPLIT_PART(name, ' ', 2), 1, 2)) AS special_code FROM artist;
